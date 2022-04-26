@@ -4,7 +4,7 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
-  return <h1 className='text-3xl font-bold border-dashed border-4 bg-blue-200 p-3'>
+  return <h1 className='dark:text-white dark:bg-black text-3xl font-bold border-dashed border-4 bg-blue-200 p-3'>
     Hello there!
   </h1>
 }
