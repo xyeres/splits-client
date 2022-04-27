@@ -1,6 +1,5 @@
-### Splits, Client
-## Front end client for www.SoundSplits.com built with React and NextJs
-
+## Splits front end client
+#### Front end client for www.SoundSplits.com built with React and NextJs
 
 ![](./screenshot.png)
-Work in progress screengrab from Dashboard
+Day 2 work in progress - Dashboard
