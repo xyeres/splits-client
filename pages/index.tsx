@@ -7,8 +7,19 @@ const Home: NextPage = () => {
   return (
     <div className='m-5'>
       <div className='grid grid-cols-3 gap-4'>
-        <div className='bg-pink-300 rounded-md p-3 col-span-2'>01</div>
-        <div className='bg-pink-300 rounded-md p-3'>02</div>
+        <div className='rounded-md col-span-2'>
+          <h1>Welcome, Michael</h1>
+          <p className='text-gray-accent text-[10px]'>Apr. 26, 2020</p>
+          <div className='bg-dark-primary mt-6 rounded-lg p-4 w-full min-h-[200px]'>
+           
+          </div>
+        </div>
+        <div className='rounded-md'>
+          <input className='bg-dark-est border-b border-b-gray-accent text-xs w-full h-8 outline-0 focus:border-dashed' placeholder='Search...' type='text'></input>
+          <div className='bg-dark-primary mt-6 rounded-lg p-4 w-full min-h-[200px]'>
+           
+          </div>
+        </div>
         <div className='bg-pink-300 rounded-md p-3'>03</div>
         <div className='bg-pink-300 rounded-md p-3'>04</div>
         <div className='bg-pink-300 rounded-md p-3'>05</div>
