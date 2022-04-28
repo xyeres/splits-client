@@ -31,7 +31,7 @@ const AssetDetail: React.FC = ({ }: Props) => {
 return (
     <div className='flex w-full h-full justify-center'>
         <div className='m-5 p-5 max-w-screen-sm bg-dark-primary rounded-md w-full'>
-            <h1 className='text-center text-2xl font-light p-5'>Edit "Another Day"</h1>
+            <h1 className='text-center text-2xl font-light p-5'>Edit &quot;Another Day&quot;</h1>
             <form className='w-full form-control'>
                 <div className='form-input-group'>
                     <label className='form-input-label' htmlFor='title'>Title</label>
