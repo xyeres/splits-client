@@ -8,13 +8,13 @@ function Navbar() {
     <div className='flex flex-row bg-dark-primary h-full'>
       <div className='flex flex-col justify-between items-center w-16 p-4'>
         <div className='flex flex-col space-y-5 mt-2 text-xl'>
-          <NavBarIcon text="Dashboard" icon={<FontAwesomeIcon icon={faGauge} />} />
-          <NavBarIcon text="Reports" icon={<FontAwesomeIcon icon={faChartPie} />} />
-          <NavBarIcon text="Sales" icon={<FontAwesomeIcon icon={faChartLine} />} />
-          <NavBarIcon text="Assets" icon={<FontAwesomeIcon icon={faCompactDisc} />} />
+          <NavBarIcon href='/' text="Dashboard" icon={<FontAwesomeIcon icon={faGauge} />} />
+          <NavBarIcon href='/reports' text="Reports" icon={<FontAwesomeIcon icon={faChartPie} />} />
+          <NavBarIcon href='/sales' text="Sales" icon={<FontAwesomeIcon icon={faChartLine} />} />
+          <NavBarIcon href='/assets' text="Assets" icon={<FontAwesomeIcon icon={faCompactDisc} />} />
         </div>
         <div className='flex flex-col'>
-          <NavBarIcon text="Logout" icon={<FontAwesomeIcon icon={faRightFromBracket} />} />
+          <NavBarIcon href='/logout' text="Logout" icon={<FontAwesomeIcon icon={faRightFromBracket} />} />
         </div>
       </div>
     </div>
