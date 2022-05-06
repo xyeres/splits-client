@@ -1,65 +1,81 @@
 import { faCheckCircle, faCircleNotch, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { BaseSyntheticEvent, ChangeEvent, EventHandler, KeyboardEvent, SyntheticEvent, useCallback, useEffect, useRef, useState } from "react";
+import React, { BaseSyntheticEvent, ChangeEvent, EventHandler, KeyboardEvent, MouseEvent, SyntheticEvent, useCallback, useEffect, useRef, useState } from "react";
+import CheckboxListItem from "../../components/CheckboxList/CheckboxListItem";
+import { toggleTag } from "../../helpers/toggleTag";
 
 
 type Props = {}
 
+export type Artist = {
+  name: string,
+  id: string,
+  gender?: string,
+  mass?: string,
+  height?: number,
+  skin_color?: number,
+  birth_year?: string,
+}
+
 const AssetDetail: React.FC = ({ }: Props) => {
 
-  const [artistTags, setArtistTags] = useState(["Will Reagan"]);
+  const [artistTags, setArtistTags] = useState([] as Artist[]);
   const [artistTagInput, setArtistTagInput] = useState("");
   const [loading, setloading] = useState(false);
-  const [filteredResults, setFilteredResults] = useState([]);
+  const [results, setResults] = useState([] as Artist[]);
   const artistTagInputRef = useRef(null);
+  const resultsPanelRef = useRef(null)
+
+  useEffect(() => {
+    const checkIfClickedOutside = (e) => {
+      if (artistTagInput !== "" && resultsPanelRef.current && !resultsPanelRef.current.contains(e.target)) {
+        setArtistTagInput("");
+      }
+    };
+
+    document.addEventListener("mousedown", checkIfClickedOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", checkIfClickedOutside)
+    }
+  }, [artistTagInput]);
+
 
   const searchPeople = async (q: string) => {
     setloading(true);
     const res = await fetch(`https://swapi.dev/api/people/?search=${q}`);
     const json = await res.json();
-    const names: string[] = [];
+    const people: Artist[] = [];
 
-    json.results.map((p) => {
-      names.push(p.name);
+    json.results.map((p: Artist) => {
+      people.push({ name: p.name, id: `${p.gender}${p.mass}${p.height}${p.skin_color}${p.birth_year}` });
     });
-    let top6 = names.slice(0, 6);
-    setFilteredResults(top6);
+    let top6 = people.slice(0, 6);
+    setResults(top6);
     setloading(false);
   };
 
   // When user is typing into field start api search and return values in list
 
   // HELPERS
-  const checkMark = (arr: string[], str: string) => {
-    return (arr.includes(str));
+  const isChecked = (artistTags: Artist[], id: string) => {
+    const ids = artistTags.map(a => {
+      return a.id;
+    });
+
+    return (ids.includes(id));
   };
 
-  const removeTag = (tagToRemove: string, state: string[], setState: React.Dispatch<React.SetStateAction<string[]>>
+  const addTag = (tag: Artist) => {
+    toggleTag(tag, artistTags, setArtistTags);
+  };
+
+  const removeTag = (tagToRemove: Artist, state: Artist[], setState: React.Dispatch<React.SetStateAction<Artist[]>>
   ) => {
-    setState(state.filter((tag) => tag !== tagToRemove));
-  };
-
-  const toggleTag = (tagContent: string, stateStore: string[],
-    setState: React.Dispatch<React.SetStateAction<string[]>>) => {
-    // Check for index
-    const index = stateStore.indexOf(tagContent);
-    // If we already have this tag in the store, remove it
-    if (index !== -1) {
-      const newState = [...stateStore];
-      newState.splice(index, 1);
-      setState([...newState]);
-      return;
-    }
-    // Otherwise add the tag
-    setState((state) => [...state, tagContent]);
+    setState(state.filter((tag) => tag.id !== tagToRemove.id));
   };
 
   // HANDLERS
-  const handleTagAddFromResults = (tag: string) => {
-    toggleTag(tag, artistTags, setArtistTags);
-    setArtistTagInput("");
-  };
-
   const handleAddTagWithKeys = (e: KeyboardEvent) => {
     const backspaceTyped = e.code === "Backspace" || e.code === "Delete";
     const noInput = artistTagInput.length === 0;
@@ -76,8 +92,7 @@ const AssetDetail: React.FC = ({ }: Props) => {
     if (noInput) return;
 
     if (e.code === "Enter" || e.code === "Semicolon" || e.code === "Comma") {
-      toggleTag(artistTagInput, artistTags, setArtistTags);
-      setArtistTagInput("");
+      return;
     }
   };
 
@@ -86,14 +101,17 @@ const AssetDetail: React.FC = ({ }: Props) => {
     if (e.target.value.includes(",")) return;
     setArtistTagInput(e.target.value);
     searchPeople(e.target.value);
-    // setFilteredResults(results.filter((item: string) => item.toLowerCase().includes(e.target.value.toLowerCase())))
+  };
+
+  const handleSubmit = (e: SyntheticEvent) => {
+    setArtistTagInput("");
   };
 
   return (
     <div className='flex w-full h-full justify-center'>
       <div className='m-5 p-5 max-w-screen-sm bg-dark-primary rounded-md w-full'>
         <h1 className='text-center text-2xl font-light p-5'>Edit &quot;Another Day&quot;</h1>
-        <form className='w-full form-control'>
+        <form onSubmit={handleSubmit} method="post" action="/api/send" className='w-full form-control'>
           <div className='form-input-group'>
             <label className='form-input-label' htmlFor='title'>Title</label>
             <input name='title' type="text" className='form-input' />
@@ -108,13 +126,15 @@ const AssetDetail: React.FC = ({ }: Props) => {
           </div>
           <div onClick={() => artistTagInputRef.current?.focus()} className='relative'>
             <div className='form-input pt-7 pl-2 h-full  flex-wrap flex items-center m-0'>
-              {artistTags.map((tag, index) => {
+              {artistTags.map((artist) => {
                 return (
-                  <span key={`${tag + index}`} className='inline-block m-1 rounded-md text-xs bg-purple-500 py-1 px-[6px]'>
-                    <span onClick={() => removeTag(tag, artistTags, setArtistTags)} className='cursor-pointer pr-2'>
+                  <span key={`${artist.id}`} className='inline-block m-[5px] rounded-md text-xs bg-purple-500 hover:border hover:border-purple-400 hover:m-[4px] py-1 px-[6px]'>
+                    <span onClick={() => removeTag(artist, artistTags, setArtistTags)} className='text-purple-400 border rounded px-[2px] p-[0px] border-purple-400 hover:text-purple-300 hover:border-purple-300 cursor-pointer mr-2 w-2 h-2 aspect-square'>
                       <FontAwesomeIcon size='xs' icon={faX} />
                     </span>
-                    <span>{tag}</span>
+                    <label>{artist.name}
+                      <input checked readOnly hidden value={artist.id} name="artists" type="checkbox" />
+                    </label>
                   </span>
                 );
               })}
@@ -130,25 +150,24 @@ const AssetDetail: React.FC = ({ }: Props) => {
 
             </div>
 
-            {artistTagInput && (
-              <div className='mt-[2px] bg-dark-active w-full transition-all rounded-lg  border border-gray-highlight shadow-lg'>
-                <ul className='divide-y text-sm cursor-pointer divide-dark-primary'>
-                  {filteredResults.map((item) => {
-                    return (
-                      <li key={item} onClick={() => handleTagAddFromResults(item)}
-                        className='px-3 py-2 flex flex-row justify-between'
-                      >
-                        {item}
-                        {
-                          checkMark(artistTags, item)
-                                                    && <span className='text-green-500'><FontAwesomeIcon icon={faCheckCircle} /></span>
-                        }
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            )}
+            <div ref={resultsPanelRef}>
+              {artistTagInput && results.length > 0 && (
+                <div className='mt-[2px] bg-dark-active w-full transition-all rounded-lg  border border-gray-highlight shadow-lg'>
+                  <ul className='divide-y text-sm cursor-pointer divide-dark-primary'>
+                    {results.map((artist) => {
+                      return (
+                        <CheckboxListItem
+                          addTag={addTag}
+                          key={artist.id}
+                          tag={artist}
+                          isChecked={isChecked(artistTags, artist.id)}
+                        />
+                      );
+                    })}
+                  </ul>
+                </div>
+              )}
+            </div>
 
           </div>
           <div className='custom-select'>
@@ -158,6 +177,7 @@ const AssetDetail: React.FC = ({ }: Props) => {
               <option value="2">Video</option>
             </select>
           </div>
+          <button className="bg-gray-accent p-3 rounded-md px-5" type="submit">Save</button>
         </form>
       </div>
     </div>
