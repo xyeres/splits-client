@@ -8,6 +8,35 @@ body {
 
 @layer components {
 
+    .wrapper{
+        position:relative; 
+        min-height:300px;
+    }
+    .expander-input {
+        background-color:white;
+        cursor:text;
+        color:gray;
+        height:43px;
+        width:30%;
+        z-index: 100;
+        display:flex;
+        padding:9px;
+    }
+
+    .input-wrapper {
+        position: absolute;
+        top:-10px;
+        left:-10px;
+        width:100%;
+    }
+
+    .text-input {
+        height: 64px;
+        width:70%;
+        padding:9px;
+        @apply shadow-lg;
+    }
+
     /* Custom Check Boxes */
     [type="checkbox"] {
         padding:25px;
