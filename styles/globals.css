@@ -7,6 +7,17 @@ body {
 }
 
 @layer components {
+
+    /* Custom Check Boxes */
+    [type="checkbox"] {
+        padding:25px;
+    }
+
+    [type="checkbox"]:focus {
+        @apply bg-gray-highlight rounded-lg;
+    }
+
+    /* Navbar icon with ToolTips */
     .navbar-icon {
         @apply flex flex-col items-center justify-center w-12 h-12 mt-2 mb-2 mx-auto shadow-lg bg-gray-highlight hover:bg-dark-active hover:text-blue-400 hover:rounded-3xl rounded-2xl transition-all duration-300 ease-linear cursor-pointer relative;
     }
@@ -14,6 +25,8 @@ body {
     .navbar-tooltip {
         @apply absolute w-auto p-2 m-2 min-w-max left-[50px] rounded-md shadow-md text-white-primary bg-gray-highlight text-xs font-bold transition-all duration-100 scale-0 origin-left;
     }
+
+    /* Form Control */
     .form-control {
         @apply space-y-7;
     }
