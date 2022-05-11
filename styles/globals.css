@@ -8,6 +8,35 @@ body {
 
 @layer components {
 
+    .growing-input {
+        padding:9px;
+        width:40%;
+        transition-property: all;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 150ms;
+    }
+
+    
+    .growing-input:focus~.big-input{
+        opacity:100;
+    }
+    .growing-input:focus {
+        opacity:0;
+        transition-property: all;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 150ms;
+    }
+
+    .big-input {
+        opacity:0;
+        position:absolute;
+        top:-10px;
+        left:-10px;
+        height:88px;
+        width:60%;
+        padding:10px;
+    }
+
     .wrapper{
         position:relative; 
         min-height:300px;
