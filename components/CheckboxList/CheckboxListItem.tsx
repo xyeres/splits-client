@@ -1,32 +1,39 @@
-import React, { KeyboardEvent, useState } from "react";
-import { Artist } from "../../pages/assets/[assetId]";
+import React, { KeyboardEvent } from "react";
+import { Tag } from "./Checkbox";
 
 type Props = {
-  tag: Artist,
-  addTag: Function,
+  tag: Tag,
   isChecked: boolean,
+  onTagAdded: Function,
+  inputName: string,
 }
 
-function CheckboxListItem({ tag, addTag, isChecked }: Props) {
+function CheckboxListItem({ tag, inputName, isChecked, onTagAdded }: Props) {
 
-  const handleAddTagKeyDown = (e: KeyboardEvent, tagContent: Artist) => {
+  const handleTagAddedKeys = (e: KeyboardEvent, tag: Tag) => {
     if (e.code === "Space") {
-      addTag(tagContent);
+      onTagAdded({ target: { value: tag } });
     }
   };
 
-  const handleAddTag = (tagContent: Artist) => {
-    addTag(tagContent);
+  const handleTagAdded = (tag: Tag) => {
+    onTagAdded({ target: { value: tag } });
   };
 
   return (
     <li tabIndex={0}
-      onClick={() => handleAddTag(tag)}
-      onKeyDown={(e) => handleAddTagKeyDown(e, tag)}
+      onClick={() => handleTagAdded(tag)}
+      onKeyDown={(e) => handleTagAddedKeys(e, tag)}
       className='hover:bg-gray-highlight hover:rounded-lg px-3 py-2 flex flex-row justify-between items-center'
     >
       <label>{tag.name}</label>
-      <input name="artists" onChange={() => handleAddTag(tag)} value={tag.id} tabIndex={-1} type="checkbox" checked={isChecked} />
+      <input name={inputName}
+        onChange={() => handleTagAdded(tag)}
+        value={tag.id}
+        tabIndex={-1}
+        type="checkbox"
+        checked={isChecked}
+      />
     </li>
   );
 }
