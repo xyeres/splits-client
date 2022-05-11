@@ -27,6 +27,7 @@ const reports: NextPage = (props: Props) => {
   return (
     <div className='m-14'>
       <form>
+        {/* EXAMPLE ONE */}
         <div className="wrapper">
           <div onClick={() => setOpen((isOpen) => !isOpen)} role="textbox" className='expander-input'>
             {inputVal ? inputVal : 'From?'}
@@ -34,10 +35,15 @@ const reports: NextPage = (props: Props) => {
           <div className="bg-yellow-200" role="dialog" aria-modal="true" tabIndex={-1}>
             <div role="textbox" tabIndex={0}>
               <div className="input-wrapper">
-                <input onChange={(e)=>setInputVal(e.target.value)} ref={fromRef} className={open ? "text-input transition-all scale-100 opacity-100 origin-bottom-left" : "opacity-0 scale-0 transition-all"} type='text' tabIndex={-1} aria-disabled="false" placeholder='From?' />
+                <input onChange={(e) => setInputVal(e.target.value)} ref={fromRef} className={open ? "text-input transition-all scale-100 opacity-100 origin-bottom-left" : "opacity-0 scale-0 transition-all"} type='text' tabIndex={-1} aria-disabled="false" placeholder='From?' />
               </div>
             </div>
           </div>
+        </div>
+        {/* EXAMPLE TWO */}
+        <div className="relative">
+          <input className="growing-input" type="text" placeholder="To?" />
+          <input className="big-input" type="text" placeholder="To?" />
         </div>
       </form>
     </div>
