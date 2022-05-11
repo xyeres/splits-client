@@ -16,7 +16,7 @@ type Artist = {
 type Planet = {
   name: string,
   id: string,
-  url?:string,
+  url?: string,
 }
 
 const AssetDetail: React.FC = ({ }: Props) => {
@@ -25,7 +25,7 @@ const AssetDetail: React.FC = ({ }: Props) => {
   const planetsInputRef = useRef<HTMLInputElement>(null);
 
   const [artists, setArtists] = useState([] as Tag[]);
-  const [artistsIsLoading, setArtistsIsLoading] = useState(true);
+  const [artistsIsLoading, setArtistsIsLoading] = useState(false);
 
   const [planets, setPlanets] = useState([] as Tag[]);
   const [planetsIsLoading, setPlanetsIsLoading] = useState(false);
@@ -87,7 +87,7 @@ const AssetDetail: React.FC = ({ }: Props) => {
               label="Artists"
               inputName="artists"
               data={artists}
-              loading={artistsIsLoading}
+              isLoading={artistsIsLoading}
               onInputChange={(e: { target: { value: string } }) => fetchArtists(e.target.value)}
               inputRef={artistsInputRef}
             />
@@ -98,16 +98,32 @@ const AssetDetail: React.FC = ({ }: Props) => {
               label="Releases"
               inputName="releases"
               data={planets}
-              loading={planetsIsLoading}
+              isLoading={planetsIsLoading}
               onInputChange={(e: { target: { value: string } }) => fetchPlanets(e.target.value)}
               inputRef={planetsInputRef}
             />
           </div>
-          <div className='custom-select'>
-            <select>
-              <option value="0">Asset type:</option>
-              <option value="1">Song</option>
-              <option value="2">Video</option>
+          <div className="mb-3 xl:w-96">
+            <label htmlFor="assettype">Asset Type</label>
+            <select name="assettype" className="form-select appearance-none
+                            block
+                            w-full
+                            px-3
+                            py-1.5
+                            text-base
+                            font-normal
+                            text-gray-accent
+                            bg-dark-active
+                            border-2 border-solid border-dark-primary
+                            rounded-lg
+                            transition
+                            ease-in-out
+                            m-0
+                            focus:text-white-primary focus:bg-dark-primary focus:border-blue-600 focus:border-2 focus:outline-none" aria-label="Select asset type">
+              <option selected>Select asset type</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
             </select>
           </div>
           <button className="bg-gray-accent p-3 rounded-md px-5" type="submit">Save</button>
