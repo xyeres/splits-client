@@ -1,8 +1,9 @@
 import React from "react";
-import { Artist } from "../pages/assets/[assetId]";
+import { Tag } from "../components/CheckboxList/Checkbox";
 
-export const toggleTag = (artist: Artist, stateStore: Artist[],
-  setState: React.Dispatch<React.SetStateAction<Artist[]>>) => {
+
+export const toggleTag = (artist: Tag, stateStore: Tag[],
+  setState: React.Dispatch<React.SetStateAction<Tag[]>>) => {
   
   // Get Ids of artists
   const ids = stateStore.map((i) => {
@@ -13,7 +14,7 @@ export const toggleTag = (artist: Artist, stateStore: Artist[],
   const index = ids.indexOf(artist.id);
 
   // If we already have this tag in the store, remove it
-  if (index !== -1) {
+  while (index !== -1) {
     const newState = [...stateStore];
     newState.splice(index, 1);
     setState([...newState]);
