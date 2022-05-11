@@ -28,7 +28,7 @@ function CheckboxListItem({ tag, inputName, isChecked, onTagAdded }: Props) {
     >
       <label>{tag.name}</label>
       <input name={inputName}
-        onChange={() => handleTagAdded(tag)}
+        onChange={() => {}}
         value={tag.id}
         tabIndex={-1}
         type="checkbox"
