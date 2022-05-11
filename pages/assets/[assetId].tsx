@@ -25,7 +25,7 @@ const AssetDetail: React.FC = ({ }: Props) => {
   const planetsInputRef = useRef<HTMLInputElement>(null);
 
   const [artists, setArtists] = useState([] as Tag[]);
-  const [artistsIsLoading, setArtistsIsLoading] = useState(false);
+  const [artistsIsLoading, setArtistsIsLoading] = useState(true);
 
   const [planets, setPlanets] = useState([] as Tag[]);
   const [planetsIsLoading, setPlanetsIsLoading] = useState(false);
