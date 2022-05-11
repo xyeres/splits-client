@@ -1,19 +1,20 @@
-import React from 'react'
+import React from "react";
 
 type Props = {
     icon: React.ReactNode,
     text?: String,
+    color?: String,
 }
 
-function LoadingWithIcon({icon, text="Loading..."}: Props) {
-    return (
-        <div className='flex flex-col text-dark-active items-center justify-center h-full gap-5'>
-            <span className='text-9xl'>
-                {icon}
-            </span>
-            <p>{text}</p>
-        </div>
-    )
+function LoadingWithIcon({ icon, text = "Loading...", color = "text-dark-active" }: Props) {
+  return (
+    <div className={`flex flex-col items-center justify-center h-full gap-2 ${color}`}>
+      <span className='text-9xl'>
+        {icon}
+      </span>
+      <p>{text}</p>
+    </div>
+  );
 }
 
-export default LoadingWithIcon
+export default LoadingWithIcon;
