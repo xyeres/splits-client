@@ -89,7 +89,7 @@ body {
         @apply space-y-7;
     }
     .form-input {
-        @apply h-16 p-2 pt-5 pl-3 bg-dark-active text-white-primary w-full rounded-lg ring-offset-2 outline-none focus:ring ring-dark-active border-0;
+        @apply h-16 p-2 pt-5 pl-3 bg-dark-active text-white-primary w-full rounded-lg focus:border-blue-600 focus:border-2 focus:outline-none ring-dark-active border-0;
     }
 
     .form-input-group {
@@ -99,56 +99,5 @@ body {
     .form-input-label {
         @apply absolute text-gray-accent top-2 left-3 text-xs;
     }
-    .custom-select {
-        @apply relative;
-    }
-
-    .custom-select select {
-        @apply hidden;
-    }
-    .select-selected {
-        @apply bg-blue-600;
-    }
-    .select-selected:after {
-        position: absolute;
-        content: "";
-        top: 14px;
-        right: 10px;
-        width: 0;
-        height: 0;
-        border: 6px solid transparent;
-        border-color: #fff transparent transparent transparent;
-      }
-      .select-selected.select-arrow-active:after {
-        border-color: transparent transparent #fff transparent;
-        top: 7px;
-      }
-      /* style the items (options), including the selected item: */
-.select-items div,.select-selected {
-    color: #ffffff;
-    padding: 8px 16px;
-    border: 1px solid transparent;
-    border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
-    cursor: pointer;
-  }
-  
-  /* Style items (options): */
-  .select-items {
-    position: absolute;
-    background-color: DodgerBlue;
-    top: 100%;
-    left: 0;
-    right: 0;
-    z-index: 99;
-  }
-  
-  /* Hide the items when the select box is closed: */
-  .select-hide {
-    display: none;
-  }
-  
-  .select-items div:hover, .same-as-selected {
-    background-color: rgba(0, 0, 0, 0.1);
-  }
 }
 

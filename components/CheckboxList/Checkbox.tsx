@@ -1,13 +1,13 @@
 import { faCircleNotch, faCompactDisc, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { BaseSyntheticEvent, useEffect, useRef, useState } from "react";
+import React, { BaseSyntheticEvent, SyntheticEvent, useEffect, useRef, useState } from "react";
 import CheckboxList from "./CheckboxList";
 import { toggleTag } from "../../helpers/toggleTag";
 
 type Props = {
   inputRef: any,
   data: any[],
-  loading: boolean,
+  isLoading: boolean,
   onInputChange?: Function,
   placeholder: string,
   inputName: string,
@@ -22,11 +22,12 @@ export interface Tag {
 const Checkbox = (props: Props) => {
   const [tags, setTags] = useState([] as Tag[]);
   const [input, setInput] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
   const resultsPanelRef = useRef<HTMLDivElement>(null);
 
 
   useEffect(() => {
-    const checkIfClickedOutside = (e:MouseEvent) => {
+    const checkIfClickedOutside = (e: MouseEvent) => {
       if (input !== "" && resultsPanelRef.current && !resultsPanelRef.current.contains(e.target)) {
         setInput("");
       }
@@ -72,11 +73,11 @@ const Checkbox = (props: Props) => {
 
   return (
     <>
-      <div className='form-input pt-7 pl-2 h-full relative flex-wrap flex items-center m-0'>
+      <div className={`form-input pt-7 pl-2 h-full relative flex-wrap flex items-center m-0 ${isFocused ? "border-blue-600 border-2 outline-none" : "border-2 border-dark-active"}`}>
         {tags.map((item) => {
           return (
             <span key={`${item.id}`} className='inline-block m-[5px] rounded-md text-xs bg-blue-500 hover:border hover:border-blue-400 hover:m-[4px] py-1 px-[6px]'>
-              <span onClick={() => toggleTag(item, tags, setTags)} className='text-blue-400 border rounded px-[2px] p-[0px] border-blue-400 hover:text-blue-300 hover:border-blue-300 cursor-pointer mr-2 w-2 h-2 aspect-square'>
+              <span onClick={() => toggleTag(item, tags, setTags)} className='text-blue-400 border rounded px-[2px] p-[0px] border-blue-400 hover:text-blue-300 hover:border-blue-300 cursor-pointer mr-2 w-2 h-2 aspect-square '>
                 <FontAwesomeIcon size='xs' icon={faX} />
               </span>
               <label>{item.name}
@@ -86,17 +87,19 @@ const Checkbox = (props: Props) => {
           );
         })}
         <span className='self-stretch'>
-          {props.loading && (
-            <span className='absolute text-gray-500 right-3 top-2'>
+          {props.isLoading && (
+            <span className='absolute text-gray-500 w-4 h-4 right-2 z-40 top-1'>
               <FontAwesomeIcon icon={faCompactDisc} spin />
             </span>
           )}
           <label className='form-input-label bg-dark-active w-11/12 top-0 py-2' htmlFor={props.inputName}>{props.label}</label>
-          <input ref={props.inputRef} placeholder={props.placeholder} onKeyDown={handleAddTagWithKeys} onChange={handleInputChange} value={input} className='h-full ml-1 outline-none text-xs bg-transparent' type='text' />
+          <input onFocus={() => setIsFocused(true)} onBlur={() => setIsFocused(false)} ref={props.inputRef} placeholder={props.placeholder} onKeyDown={handleAddTagWithKeys} onChange={handleInputChange} value={input} className='h-full ml-1 outline-none text-xs bg-transparent' type='text' />
         </span>
       </div>
       <CheckboxList
+        isLoading={props.isLoading}
         query={input}
+        isFocused={isFocused}
         data={props.data}
         tags={tags}
         divRef={resultsPanelRef}
