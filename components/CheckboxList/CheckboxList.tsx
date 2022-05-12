@@ -26,7 +26,7 @@ const CheckboxList = (props: Props) => {
 
 
   return (
-    <div ref={props.divRef} className={isVisible ? `absolute min-h-[100px] group-focus:text-red z-10 rounded-t-none -mt-[6px] bg-dark-active w-full rounded-lg  shadow-md ${props.isFocused ? "border-blue-600 border-2 outline-none border-t-0" : "border-2 border-dark-active"}` : "transition-all -left-[1200px] bg-dark-active rounded w-full absolute opacity-0"}>
+    <div ref={props.divRef} className={isVisible ? `absolute min-h-[100px] group-focus:text-red z-10 rounded-t-none -mt-[6px] bg-dark-active w-full rounded-lg  shadow-md ${props.isFocused ? "border-blue-600 border-2 outline-none border-t-0" : "border-t-0 border-2 border-dark-active"}` : "transition-all -left-[1200px] bg-dark-active rounded w-full absolute opacity-0"}>
       {props.data.length > 0 ? (
         <ul className='divide-y text-sm cursor-pointer divide-dark-primary'>
           {props.data.map((item) => {
